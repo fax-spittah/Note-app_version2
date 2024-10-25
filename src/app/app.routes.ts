@@ -26,7 +26,7 @@ export const routes: Routes = [
     {path: 'startup', component: StartupComponent},
     {path: 'admin', component: AdminComponent, canActivate:[adminGuardGuard], children: [
         {path: 'changeNotebookImage', component: ChangeNotebookImageComponent, canDeactivate: [deactivateGuardGuard]},
-        {path: 'changeNoteImage', component: ChangeNoteImageComponent, canDeactivate: [deactivateGuardGuard],},
+        {path: 'changeNoteImage', component: ChangeNoteImageComponent, canDeactivate: [deactivateGuardGuard]},
     ]},
     //
     {path: '404-page', component: PageNotFoundComponent},

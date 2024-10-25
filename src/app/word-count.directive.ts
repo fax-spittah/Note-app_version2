@@ -8,7 +8,7 @@ import { Directive, ElementRef, EventEmitter, HostListener, Input, OnChanges, On
 export class WordCountDirective {
   @Output() wordCountChange = new EventEmitter<number>();
 
-  constructor(private el: ElementRef) {}
+  constructor(private el: ElementRef) { }
 
   @HostListener('input') onInput() {
     this.emitWordCount();

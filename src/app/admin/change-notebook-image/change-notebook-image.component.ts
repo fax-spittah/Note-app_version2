@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { ImageStorageService } from '../../image-storage.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-change-notebook-image',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './change-notebook-image.component.html',
   styleUrl: './change-notebook-image.component.css'
 })

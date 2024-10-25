@@ -64,9 +64,10 @@ export class ImageStorageService {
 
   updateNotebookImages(url: string, imageType: string) {
     // Fetching all notebooks
-    this.notebooksService.getNotebooks().subscribe({
+    const subscriptions = this.notebooksService.getNotebooks().subscribe({
       next: (books: Notebook[]) => {
-        this.notebooks = books; 
+        this.notebooks = books;
+        subscriptions.unsubscribe();
 
         // Use map to create an array of promises
         if(imageType === 'notebook'){
