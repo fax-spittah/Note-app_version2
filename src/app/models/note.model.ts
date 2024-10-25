@@ -14,6 +14,6 @@ export class Note{
         this.name = 'New note', 
         this.text = '',
         this.time = Timestamp.now(), 
-        this.img = 'src/assets/images/allnotes.png'
+        this.img = ''
     }
 }

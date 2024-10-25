@@ -14,9 +14,18 @@ import { User } from '../../models/user.model';
   styleUrl: './navigation.component.css'
 })
 export class NavigationComponent {
-  userPermissions: string = ''
+  userPermissions: string = '';
+  currentLoggedInUser: User | undefined;
 
   constructor(private _authService: AuthService, private userService: UserService){}
+
+  ngOnInit() {
+    //checking if a user is logged in and fetching their details directly
+    this.userService.currentUser.subscribe(user => {
+      this.currentLoggedInUser = user;
+      console.log('Current user:', this.currentLoggedInUser);
+    });
+  }
 
   onLogout(): void{
     this.authService.logout();

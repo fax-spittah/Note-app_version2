@@ -24,7 +24,7 @@ export const routes: Routes = [
     {path: 'logout', component: LogoutComponent, canActivate:[loggedOutGuard]},
     {path: 'signup', component: SignupComponent, canActivate:[loggedOutGuard]},
     {path: 'startup', component: StartupComponent},
-    {path: 'admin', component: AdminComponent, canActivate:[adminGuardGuard], children: [
+    {path: 'admin', component: AdminComponent,  children: [ //canActivate:[adminGuardGuard],
         {path: 'changeNotebookImage', component: ChangeNotebookImageComponent, canDeactivate: [deactivateGuardGuard]},
         {path: 'changeNoteImage', component: ChangeNoteImageComponent, canDeactivate: [deactivateGuardGuard]},
     ]},

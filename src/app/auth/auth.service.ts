@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@angular/fire/auth';
 import { doc, docData, DocumentReference, Firestore } from '@angular/fire/firestore';
 import { User } from '../models/user.model';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ import { User } from '../models/user.model';
 export class AuthService {
   token: string | null = null;
   userId: string | null = null;
+  userLoggedIn = new Subject<void>();
 
   constructor(private router: Router, private auth: Auth, private db: Firestore) {
     if(localStorage.getItem('token')){
@@ -27,6 +29,11 @@ export class AuthService {
     });
   }
 
+  // Call this method whenever a user logs in
+  handleUserLogin() {
+    this.userLoggedIn.next(); // Emit login event
+  }
+
   signup(email: string, password: string): Promise<string> {
     return createUserWithEmailAndPassword(this.auth, email, password)
       .catch(error => {
@@ -41,6 +48,7 @@ export class AuthService {
   login(email: string, password: string) {
     return signInWithEmailAndPassword(this.auth, email, password)
       .then(() => {
+        this.handleUserLogin();
         return this.auth.currentUser?.getIdToken().then((token: string) => {
           this.token = token;
           localStorage.setItem('token', token);

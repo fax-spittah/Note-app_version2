@@ -108,15 +108,22 @@ export class ImageStorageService {
       error: (error) => console.log('Error fetching notebooks: ', error)
     });
 
-    //
+    if(imageType === 'notebook'){
+      this.typeToBeUpdated = 'notebook'
+    }else{
+      this.typeToBeUpdated = 'note'
+    }
+    
+    console.log()
+
     this.updateDeletedStuff(url, this.typeToBeUpdated);
   }
 
   updateDeletedStuff(url: string, type: string) {
-    this.noteService.getDeletedNotes().subscribe({
+    const subscription = this.noteService.getDeletedNotes().subscribe({
       next: (stuff: Bin[]) => {
         this.deletedStuff = stuff;
-
+        subscription.unsubscribe();
         // Use map to create an array of promises
         const updatePromises = this.deletedStuff.map((del) => {
           del.img = url;

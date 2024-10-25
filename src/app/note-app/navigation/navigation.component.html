@@ -11,6 +11,7 @@
                 <a class="nav-link" routerLinkActive="active" [routerLink]="'/admin'">Administrator</a>
             </li>
         </ul>
+        <span><b>{{ currentLoggedInUser?.firstName }} {{ currentLoggedInUser?.lastName }}</b></span>
         <button  *ngIf="authService.isLoggedIn()" (click)="onLogout()" class="btn btn-primary">Logout</button>
         <!-- <img src="../../assets/images/pen.png"/> -->
         <!-- <ul *ngIf="!authService.isLoggedIn()" class="navbar-nav justify-content-center">
