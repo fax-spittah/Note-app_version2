@@ -21,6 +21,7 @@ export class SignupComponent {
   passwordPattern: RegExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
   userNamePattern: RegExp = /^[A-Za-z\d]{4,}$/;
   validEmailPattern: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  emails: string[] = [];
   userExists: boolean = false;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private userService: UserService, private db: Firestore){}
@@ -36,6 +37,8 @@ export class SignupComponent {
                         
       'password': [null, { validators: [Validators.required, this.validPassword.bind(this)] }], 
     })
+
+    this.fetchUserEmails();
   }
 
   onSignUp(): void {
@@ -47,7 +50,7 @@ export class SignupComponent {
     this.authService.signup(email, password)
       .then((res) => {
         if (res === 'success') {
-          this.userService.addUserToDb(firstName, lastName);
+          this.userService.addUserToDb(firstName, lastName, email);
           //logging the user in directly after signing up
           this.authService.login(email, password);
           // this.router.navigate(['/']);
@@ -64,12 +67,24 @@ export class SignupComponent {
   emailExists(control: FormControl): Promise<any> | Observable<any> {
     return new Promise<any>((resolve) => {
       setTimeout(() => {
-        const existingEmails = '';
+        // Check if emails array is populated
+        if (!this.emails || this.emails.length === 0) {
+          resolve(null);
+          return;
+        }
+        
+        this.userExists = false;
 
-        if (control.value === 'son@gmail.com') {
-          console.log("Email has been taken");
+        // Checking if the control value exists in the emails array
+        this.emails.forEach(email => {
+          if (control.value === email) {
+            console.log(`The email ${email} has been taken`);
+            this.userExists = true;
+          }
+        });
+
+        if (this.userExists) {
           resolve({ 'emailTaken': true });
-          this.userExists = true;
         } else {
           resolve(null);
         }
@@ -105,6 +120,13 @@ export class SignupComponent {
       return {'invalidFormat': true};
     }
     return null;
+  }
+
+  fetchUserEmails(): void{
+    this.userService.fetchEmails().subscribe(emails => {
+      this.emails = emails;
+      console.log(this.emails); 
+    });
   }
 
   get firstName(){

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { collection, collectionData, CollectionReference, deleteDoc, doc, docData, DocumentReference, Firestore, setDoc } from '@angular/fire/firestore';
-import { from, Observable } from 'rxjs';
+import { from, map, Observable } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { User } from '../models/user.model';
 import { Auth } from '@angular/fire/auth';
@@ -12,13 +12,14 @@ export class UserService {
 
   constructor(private db: Firestore, private authService: AuthService, private auth: Auth) { }
 
-  addUserToDb(firstName: string, lastName: string) {
+  addUserToDb(firstName: string, lastName: string, email: string) {
     const userID = this.authService.getUserID();
     const ref = doc(this.db, 'users/' + userID);
 
     const userData = {
       firstName: firstName,
-      lastName: lastName
+      lastName: lastName,
+      email: email,
     };
     
     return from(setDoc(ref, userData));
@@ -30,6 +31,15 @@ export class UserService {
       {idField: 'userID'}
     )
   }  
+
+  fetchEmails(): Observable<string[]> {
+    return collectionData<User>(
+      collection(this.db, 'users') as CollectionReference<User>,
+      { idField: 'userID' }
+    ).pipe(
+      map(users => users.map(user => user.email))
+    );
+  }
 
   deleteUserFromDb(userId: string) {
     const noteRef = doc(this.db, 'users/' + userId) as DocumentReference<User>;
