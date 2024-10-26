@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { collection, collectionData, CollectionReference, deleteDoc, doc, docData, DocumentReference, Firestore, setDoc } from '@angular/fire/firestore';
-import { from, map, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, from, map, Observable, Subject } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { User } from '../models/user.model';
 import { Auth } from '@angular/fire/auth';
@@ -9,15 +9,19 @@ import { Auth } from '@angular/fire/auth';
   providedIn: 'root'
 })
 export class UserService {
-  private userSubject = new Subject<User | undefined>(); // Subject to emit user data
+  private userSubject = new BehaviorSubject<User | undefined>(undefined);
+  currentLoggedInUser: User | undefined;
 
   constructor(private db: Firestore, private authService: AuthService, private auth: Auth) {
     // Subscribe to AuthService login events
     this.authService.userLoggedIn.subscribe({
       next: () => this.fetchCurrentUser()
     });
-  }
 
+    this.authService.userLoggedOut.subscribe({
+      next: () => this.clearCurrentUser()
+    })
+  }
 
   // Method to fetch the current user and emit it
   private fetchCurrentUser() {
@@ -25,11 +29,14 @@ export class UserService {
     if (userID) {
       const userRef = doc(this.db, 'users/' + userID) as DocumentReference<User>;
       docData(userRef).subscribe({
-        next: (user) => this.userSubject.next(user), 
-        error: () => this.userSubject.next(undefined) 
+        next: (user) => {
+          this.userSubject.next(user);
+          localStorage.setItem('currentUser', JSON.stringify(user));
+        },
+        error: () => this.clearCurrentUser()
       });
     } else {
-      this.userSubject.next(undefined);
+      this.clearCurrentUser();
     }
   }
 
@@ -37,6 +44,15 @@ export class UserService {
   get currentUser(): Observable<User | undefined> {
     return this.userSubject.asObservable();
   }
+
+  set currentUser(user: User | undefined) {
+    this.userSubject.next(user);
+  }
+
+  clearCurrentUser(): void {
+    this.userSubject.next(undefined); 
+    localStorage.removeItem('currentUser'); 
+  }  
 
   addUserToDb(firstName: string, lastName: string, email: string) {
     const userID = this.authService.getUserID();

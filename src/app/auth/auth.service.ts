@@ -4,6 +4,7 @@ import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from
 import { doc, docData, DocumentReference, Firestore } from '@angular/fire/firestore';
 import { User } from '../models/user.model';
 import { Subject } from 'rxjs';
+import { UserService } from '../services/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +13,9 @@ export class AuthService {
   token: string | null = null;
   userId: string | null = null;
   userLoggedIn = new Subject<void>();
+  userLoggedOut = new Subject<void>();
 
-  constructor(private router: Router, private auth: Auth, private db: Firestore) {
+  constructor(private router: Router, private auth: Auth) {
     if(localStorage.getItem('token')){
       this.token = localStorage.getItem('token');
     }
@@ -75,10 +77,16 @@ export class AuthService {
   }
   
   logout(): void{
-    this.auth.signOut();
-    this.token = null;
-    localStorage.removeItem('token');
-    this.router.navigate(['/login']);
+    this.auth.signOut().then(() => {
+      this.token = null;
+      localStorage.removeItem('token');
+      localStorage.removeItem('currentUser');
+
+      this.userLoggedOut.next(); // Emit the logout event
+      this.router.navigate(['/login']); 
+    }).catch(error => {
+      console.error("Error during logout:", error);
+    });
   }
 
   isLoggedIn(): boolean{

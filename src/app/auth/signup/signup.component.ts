@@ -46,23 +46,36 @@ export class SignupComponent {
     const password = this.form.value.password;
     const firstName = this.form.value.firstName;
     const lastName = this.form.value.lastName;
-
+  
     this.authService.signup(email, password)
       .then((res) => {
         if (res === 'success') {
-          this.userService.addUserToDb(firstName, lastName, email);
-          //logging the user in directly after signing up
-          this.authService.login(email, password);
-          // this.router.navigate(['/']);
+          return this.userService.addUserToDb(firstName, lastName, email).toPromise();
         } else {
-          alert(res);
+          throw new Error(res);
         }
-    });
+      })
+      .then(() => {
+        // After adding the user to the database, log the user in
+        return this.authService.login(email, password);
+      })
+      .then((loginRes) => {
+        if (loginRes) {
+          this.router.navigate(['/']);
+        } else {
+          alert(loginRes);
+        }
+      })
+      .catch((error) => {
+        console.error("Signup/Login Error:", error);
+        alert("An error occurred: " + error.message);
+      });
 
     this.form.statusChanges.subscribe(
-      (state) => console.log(state)
+      (state) => console.log("Form Status:", state)
     );
   }
+  
 
   emailExists(control: FormControl): Promise<any> | Observable<any> {
     return new Promise<any>((resolve) => {

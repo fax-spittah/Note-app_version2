@@ -20,11 +20,23 @@ export class NavigationComponent {
   constructor(private _authService: AuthService, private userService: UserService){}
 
   ngOnInit() {
-    //checking if a user is logged in and fetching their details directly
+    // checking if a user is logged in and fetching their details directly
+    const storedUser = localStorage.getItem('currentUser');
+    if (storedUser) {
+      this.currentLoggedInUser = JSON.parse(storedUser);
+      console.log('User loaded from localStorage:', this.currentLoggedInUser);
+    }
+
+    // Listening for updates in currentUser
     this.userService.currentUser.subscribe(user => {
-      this.currentLoggedInUser = user;
+      if (user) {
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        this.currentLoggedInUser = user;
+      }
       console.log('Current user:', this.currentLoggedInUser);
     });
+
+    this.getUserPermissions();
   }
 
   onLogout(): void{
@@ -44,14 +56,13 @@ export class NavigationComponent {
             return true;
           }
           else{
-            console.log("Admin" + admin);
+            console.log("User" + admin);
             return false;
           }
         }
       )
     )
   }
-
 
 
   
