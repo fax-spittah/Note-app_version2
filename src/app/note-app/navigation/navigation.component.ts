@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { CommonModule } from '@angular/common';
-import { UserService } from '../../services/user.service';
+import { UserService } from '../services/user.service';
 import { map } from 'rxjs';
-import { User } from '../../models/user.model';
+import { User } from '../models/user.model';
 
 @Component({
   selector: 'app-navigation',
@@ -64,6 +64,15 @@ export class NavigationComponent {
     )
   }
 
+  // checkPermissions() {
+  //   this.getUserPermissions().subscribe(isAdmin => {
+  //     if (isAdmin) {
+  //       console.log("User has admin permissions.");
+  //     } else {
+  //       console.log("User does not have admin permissions.");
+  //     }
+  //   });
+  // }
 
   
   // getUserPermissions() {

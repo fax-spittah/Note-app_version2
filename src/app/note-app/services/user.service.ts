@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { collection, collectionData, CollectionReference, deleteDoc, doc, docData, DocumentReference, Firestore, setDoc } from '@angular/fire/firestore';
 import { BehaviorSubject, from, map, Observable, Subject } from 'rxjs';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '../../auth/auth.service';
 import { User } from '../models/user.model';
 import { Auth } from '@angular/fire/auth';
 
@@ -88,7 +88,7 @@ export class UserService {
     return from(deleteDoc(noteRef));
   }
 
-  getAdmin(uid: string | null) {
+  getAdmin(uid: string | null): Observable<User | undefined> {
     return docData<User>(doc(this.db, 'administrator/' + uid) as DocumentReference<User>);
   }
 }

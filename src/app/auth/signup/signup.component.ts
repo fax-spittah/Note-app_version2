@@ -3,9 +3,9 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../auth.service';
-import { UserService } from '../../services/user.service';
+import { UserService } from '../../note-app/services/user.service';
 import { deleteDoc, doc, DocumentReference, Firestore } from '@angular/fire/firestore';
-import { User } from '../../models/user.model';
+import { User } from '../../note-app/models/user.model';
 import { from, Observable } from 'rxjs';
 
 @Component({

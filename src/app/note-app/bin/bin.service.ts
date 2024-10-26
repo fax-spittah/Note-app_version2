@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Bin } from '../models/bin.model';
+import { Bin } from './bin.model';
 import { EMPTY, from, Observable } from 'rxjs';
 import { collection, deleteDoc, doc, DocumentReference, Firestore, setDoc, updateDoc } from '@angular/fire/firestore';
 

@@ -1,11 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Note } from '../../models/note.model';
+import { Note } from '../models/note.model';
 import { RouterModule } from '@angular/router';
-import { NoteTitlePipe } from '../../pipes/note-title.pipe';
-import { NotePipePipe } from '../../pipes/note-pipe.pipe';
-import { SortingPipe } from '../../pipes/sorting.pipe';
-import { FilterPipe } from '../../pipes/filter.pipe';
+import { NoteTitlePipe } from '../pipes/note-title.pipe';
+import { NotePipePipe } from '../pipes/note-pipe.pipe';
+import { SortingPipe } from '../pipes/sorting.pipe';
+import { FilterPipe } from '../pipes/filter.pipe';
 
 @Component({
   selector: 'app-home-notes',

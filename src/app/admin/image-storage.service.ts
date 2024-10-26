@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { getDownloadURL, ref, Storage, uploadBytesResumable } from '@angular/fire/storage';
 import { doc, Firestore } from '@angular/fire/firestore';
-import { Notebook } from './models/notebooks.model';
-import { BookDBServiceService } from './services/book-dbservice.service';
-import { BinService } from './services/bin.service';
-import { Bin } from './models/bin.model';
-import { NotesDBServiceService } from './services/notes-dbservice.service';
-import { Note } from './models/note.model';
+import { Notebook } from '../note-app/models/notebooks.model';
+import { BookDBServiceService } from '../note-app/services/book-dbservice.service';
+import { BinService } from '../note-app/bin/bin.service';
+import { Bin } from '../note-app/bin/bin.model';
+import { NotesDBServiceService } from '../note-app/services/notes-dbservice.service';
+import { Note } from '../note-app/models/note.model';
 
 @Injectable({
   providedIn: 'root'

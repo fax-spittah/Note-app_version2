@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Note } from '../models/note.model';
-import { Bin } from '../models/bin.model';
+import { Bin } from '../bin/bin.model';
 import { from, Observable, Subject } from 'rxjs';
 import { Notebook } from '../models/notebooks.model';
 import { collection, collectionData, CollectionReference, doc, DocumentData, Firestore, setDoc, where, query, DocumentReference, deleteDoc, updateDoc } from '@angular/fire/firestore';

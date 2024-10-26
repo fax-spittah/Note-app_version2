@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Bin } from '../models/bin.model';
+import { Bin } from './bin.model';
 import { NotesDBServiceService } from '../services/notes-dbservice.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { BinService } from '../services/bin.service';
+import { BinService } from './bin.service';
 import { BookDBServiceService } from '../services/book-dbservice.service';
 import { Note } from '../models/note.model';
 import { Notebook } from '../models/notebooks.model';
 import { FormsModule } from '@angular/forms';
 import { NotebookTitlePipe } from '../pipes/notebook-title.pipe';
 import { Timestamp } from '@angular/fire/firestore';
-import { ImageStorageService } from '../image-storage.service';
+import { ImageStorageService } from '../../admin/image-storage.service';
 
 @Component({
   selector: 'app-home',

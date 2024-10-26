@@ -1,31 +1,37 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './note-app/home/home.component';
-import { BinComponent } from './bin/bin.component';
-import { NotebooksComponent } from './note-app/notebooks/notebooks.component';
 import { PageNotFoundComponent } from './note-app/page-not-found/page-not-found.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { LoginComponent } from './auth/login/login.component';
 import { StartupComponent } from './startup/startup.component';
-import { loggedInGuard } from './logged-in.guard';
-import { AdminComponent } from './admin/admin.component';
-import { loggedOutGuard } from './logged-out.guard';
-import { adminGuardGuard } from './admin-guard.guard';
-import { deactivateGuardGuard } from './deactivate-guard.guard';
-import { ChangeNotebookImageComponent } from './admin/change-notebook-image/change-notebook-image.component';
-import { ChangeNoteImageComponent } from './admin/change-note-image/change-note-image.component';
+import { loggedOutGuard } from './auth/logged-out.guard';
 
 export const routes: Routes = [
-    {path: '', component: HomeComponent, canActivate:[loggedInGuard]},
-    {path: 'bin', component: BinComponent, canActivate:[loggedInGuard]},
-    {path: 'notebooks', component: NotebooksComponent, canActivate:[loggedInGuard]},
+    {
+        path: '',
+        loadChildren: () => import('./note-app/home/home-routing.module').then(m => m.HomeRoutingModule), 
+    },
+    {
+        path: 'bin',
+        loadChildren: () => import('./note-app/bin/bin-routing.module').then(m => m.BinRoutingModule), 
+    },
+    {
+        path: 'notebooks',
+        loadChildren: () => import('./note-app/notebooks/notebooks-routing.module').then(m => m.NotebooksRoutingModule), 
+    },
     //newly added routes
-    {path: 'login', component: LoginComponent, canActivate:[loggedOutGuard]},
-    {path: 'signup', component: SignupComponent, canActivate:[loggedOutGuard]},
+    {
+        path: 'login',
+        loadChildren: () => import('./auth/login/login-routing.module').then(m => m.LoginRoutingModule), 
+    },
+    {
+        path: 'signup',
+        loadChildren: () => import('./auth/signup/signup-routing.module').then(m => m.SignupRoutingModule), 
+    },
     {path: 'startup', component: StartupComponent},
-    {path: 'admin', component: AdminComponent, canActivate:[adminGuardGuard], children: [ 
-        {path: 'changeNotebookImage', component: ChangeNotebookImageComponent, canDeactivate: [deactivateGuardGuard]},
-        {path: 'changeNoteImage', component: ChangeNoteImageComponent, canDeactivate: [deactivateGuardGuard]},
-    ]},
+    {
+        path: 'admin',
+        loadChildren: () => import('./admin/admin-routing.module').then(m => m.AdminRoutingModule),
+    },
     //
     {path: '404-page', component: PageNotFoundComponent},
     {path: '**', redirectTo: '/404-page'}

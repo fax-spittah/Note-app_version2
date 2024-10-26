@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { ImageStorageService } from '../../image-storage.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ImageStorageService } from '../image-storage.service';
 
 @Component({
   selector: 'app-change-note-image',
@@ -42,7 +42,7 @@ export class ChangeNoteImageComponent {
 
   canDeactivate(): boolean {
     if (this.fileForNote && !this.imageUploaded) {
-      return confirm('You selected a note image but haven’t uploaded it. Do you want to leave without uploading?');
+      return confirm('You selected a note image but haven\'t uploaded it. Do you want to leave without uploading?');
     }
     return true;
   }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { ImageStorageService } from '../../image-storage.service';
 import { CommonModule } from '@angular/common';
+import { ImageStorageService } from '../image-storage.service';
 
 @Component({
   selector: 'app-change-notebook-image',

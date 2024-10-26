@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { UserService } from '../services/user.service';
-import { User } from '../models/user.model';
+import { UserService } from '../note-app/services/user.service';
+import { User } from '../note-app/models/user.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth/auth.service';
 import { Auth } from '@angular/fire/auth';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
-import { ImageStorageService } from '../image-storage.service';
 import { Observable } from 'rxjs';
+import { ImageStorageService } from './image-storage.service';
 
 @Component({
   selector: 'app-admin',
