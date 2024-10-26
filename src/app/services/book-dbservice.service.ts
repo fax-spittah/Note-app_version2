@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Notebook } from '../models/notebooks.model';
 import { HttpClient } from '@angular/common/http';
-import { from, Observable } from 'rxjs';
+import { from, Observable, Subject } from 'rxjs';
 import { query, collection, collectionData, CollectionReference, deleteDoc, doc, DocumentData, DocumentReference, Firestore, setDoc, updateDoc, where, docData } from '@angular/fire/firestore';
 
 @Injectable({
@@ -10,7 +10,9 @@ import { query, collection, collectionData, CollectionReference, deleteDoc, doc,
 
 export class BookDBServiceService {
 
-  constructor(private http: HttpClient, private db: Firestore){}
+  private notebooksSubject = new Subject<Notebook[]>(); 
+
+  constructor(private http: HttpClient, private db: Firestore) {}
   
   //adding a new notebook
   addNewNoteBook(notebook: Notebook) {

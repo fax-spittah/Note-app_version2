@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@angular/fire/auth';
 import { doc, docData, DocumentReference, Firestore } from '@angular/fire/firestore';
 import { User } from '../models/user.model';
+import { Subject } from 'rxjs';
+import { UserService } from '../services/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +12,10 @@ import { User } from '../models/user.model';
 export class AuthService {
   token: string | null = null;
   userId: string | null = null;
+  userLoggedIn = new Subject<void>();
+  userLoggedOut = new Subject<void>();
 
-  constructor(private router: Router, private auth: Auth, private db: Firestore) {
+  constructor(private router: Router, private auth: Auth) {
     if(localStorage.getItem('token')){
       this.token = localStorage.getItem('token');
     }
@@ -25,6 +29,11 @@ export class AuthService {
         console.log("No user is logged in");
       }
     });
+  }
+
+  // Call this method whenever a user logs in
+  handleUserLogin() {
+    this.userLoggedIn.next(); // Emit login event
   }
 
   signup(email: string, password: string): Promise<string> {
@@ -41,6 +50,7 @@ export class AuthService {
   login(email: string, password: string) {
     return signInWithEmailAndPassword(this.auth, email, password)
       .then(() => {
+        this.handleUserLogin();
         return this.auth.currentUser?.getIdToken().then((token: string) => {
           this.token = token;
           localStorage.setItem('token', token);
@@ -67,10 +77,16 @@ export class AuthService {
   }
   
   logout(): void{
-    this.auth.signOut();
-    this.token = null;
-    localStorage.removeItem('token');
-    this.router.navigate(['/login']);
+    this.auth.signOut().then(() => {
+      this.token = null;
+      localStorage.removeItem('token');
+      localStorage.removeItem('currentUser');
+
+      this.userLoggedOut.next(); // Emit the logout event
+      this.router.navigate(['/login']); 
+    }).catch(error => {
+      console.error("Error during logout:", error);
+    });
   }
 
   isLoggedIn(): boolean{

@@ -3,7 +3,7 @@
         <div *ngFor="let notebook of notebooks; index as i" (click)="hideList(); setSelectedNoteBookIndex(i);" (contextmenu)="setSelectedNoteBookIndex(i); showList($event)">
             <a [routerLink]="'/'" [queryParams]="{id:getRouteId(i)}" class="nav-link" routerLinkActive="active" [ngClass]="{ 'active-notebook': i === selectedNoteBookIndex }">
                 <div class="notebooks" (click)="setNoteParentTitle('notebook', i)">
-                    <img src={{notebook.img}} [src]="notebook.img" alt="notebook image"/>
+                    <img src={{notebook.img}} alt="notebook image"/>
                     <span *ngIf="!editing[i]" (dblclick)="toggleEdit(i)">{{notebook.name | notebookTitle}}</span>
                     <input *ngIf="editing[i]" type="text" [(ngModel)]="notebooks[i].name" (blur)="toggleEdit(i)" (keyup.enter)="toggleEdit(i)"/>
                 </div>

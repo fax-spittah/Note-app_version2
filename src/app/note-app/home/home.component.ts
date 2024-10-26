@@ -1,4 +1,4 @@
-import { Component, OnChanges, Output, SimpleChanges, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnChanges, Output, SimpleChanges, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { QuillModule } from 'ngx-quill';
 import Quill from 'quill';
@@ -21,6 +21,8 @@ import { AuthService } from '../../auth/auth.service';
 import { WordCountDirective } from '../../word-count.directive';
 import { SortingPipe } from '../../pipes/sorting.pipe';
 import { ImageStorageService } from '../../image-storage.service';
+import { UserService } from '../../services/user.service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-home',
@@ -63,8 +65,9 @@ export class HomeComponent {
   sortType: string = '';
   notebookImageUrl: string | null = null;
   wordCount: number = 0;
+  currentLoggedInUser: User | undefined;
 
-  constructor(private authService: AuthService, private route: ActivatedRoute, private notebooksService: BookDBServiceService, private notesService: NotesDBServiceService, private imageService: ImageStorageService){}
+  constructor(private el: ElementRef, private authService: AuthService, private route: ActivatedRoute, private notebooksService: BookDBServiceService, private notesService: NotesDBServiceService, private imageService: ImageStorageService, private userService: UserService){}
   private nextNoteId: number = 1;
   private nextNoteBookId: number = 1;
   @ViewChild(WordCountDirective) wordCountDirective!: WordCountDirective;
@@ -113,7 +116,14 @@ export class HomeComponent {
     });
 
     this.updateText();
+    this.emitWordCount();
     // this.getNotebookImage();
+
+    //checking if a user is logged in and fetching their details directly
+    // this.userService.currentUser.subscribe(user => {
+    //   this.currentLoggedInUser = user;
+    //   console.log('Current user:', this.currentLoggedInUser);
+    // });
   }
 
   getText(): string | null{
@@ -438,6 +448,22 @@ export class HomeComponent {
   //     console.log("No notebook image URL available.");
   //   }
   // }
+
+  emitWordCount(): void {
+    const html = this.el.nativeElement.children[0].innerHTML; //accessing the innerHtml of the quill editor
+    const text = this.htmlToPlainText(html); 
+    const wordCount = this.countWords(text); 
+  }
+
+  private countWords(text: string): number {
+    const words = text.trim().split(/\s+/);
+    return text.length > 0 ? words.length : 0; 
+  }
+
+  private htmlToPlainText(html: string): string {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    return doc.body.textContent || ""; //Convert HTML to plain text
+  }
 
   updateWordCount(count: number) {
     this.wordCount = count;

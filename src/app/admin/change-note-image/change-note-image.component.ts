@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { ImageStorageService } from '../../image-storage.service';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-change-note-image',
   standalone: true,
-  imports: [],
+  imports: [FormsModule, CommonModule],
   templateUrl: './change-note-image.component.html',
   styleUrl: './change-note-image.component.css'
 })
