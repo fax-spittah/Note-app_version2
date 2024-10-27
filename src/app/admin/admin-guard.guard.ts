@@ -1,9 +1,9 @@
 import { CanActivateFn, Router } from '@angular/router';
-import { UserService } from './services/user.service';
-import { AuthService } from './auth/auth.service';
+import { UserService } from '../note-app/services/user.service';
+import { AuthService } from '../auth/auth.service';
 import { inject } from '@angular/core';
 import { map } from 'rxjs';
-import { User } from './models/user.model';
+import { User } from '../note-app/models/user.model';
 
 export const adminGuardGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);

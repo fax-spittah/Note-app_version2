@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@angular/fire/auth';
-import { doc, docData, DocumentReference, Firestore } from '@angular/fire/firestore';
-import { User } from '../models/user.model';
 import { Subject } from 'rxjs';
-import { UserService } from '../services/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -83,7 +80,7 @@ export class AuthService {
       localStorage.removeItem('currentUser');
 
       this.userLoggedOut.next(); // Emit the logout event
-      this.router.navigate(['/login']); 
+      this.router.navigate(['/startup']); 
     }).catch(error => {
       console.error("Error during logout:", error);
     });

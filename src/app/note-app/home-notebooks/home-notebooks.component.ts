@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { NotebookTitlePipe } from '../../pipes/notebook-title.pipe';
-import { Notebook } from '../../models/notebooks.model';
+import { NotebookTitlePipe } from '../pipes/notebook-title.pipe';
+import { Notebook } from '../models/notebooks.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';

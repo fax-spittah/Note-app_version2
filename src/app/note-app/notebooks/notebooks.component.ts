@@ -1,19 +1,19 @@
 import { Component } from '@angular/core';
-import { Notebook } from '../../models/notebooks.model';
+import { Notebook } from '../models/notebooks.model';
 import { CommonModule } from '@angular/common';
-import { BookDBServiceService } from '../../services/book-dbservice.service';
+import { BookDBServiceService } from '../services/book-dbservice.service';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { NotesDBServiceService } from '../../services/notes-dbservice.service';
-import { BinComponent } from '../../bin/bin.component';
-import { Bin } from '../../models/bin.model';
+import { NotesDBServiceService } from '../services/notes-dbservice.service';
+import { BinComponent } from '../bin/bin.component';
+import { Bin } from '../bin/bin.model';
 // import { HomeNotesComponent } from '../home-notes/home-notes.component';
-import { Note } from '../../models/note.model';
-import { NotebookTitlePipe } from '../../pipes/notebook-title.pipe';
+import { Note } from '../models/note.model';
+import { NotebookTitlePipe } from '../pipes/notebook-title.pipe';
 import { Timestamp } from '@angular/fire/firestore';
-import { ImageStorageService } from '../../image-storage.service';
 import { Subscription } from 'rxjs';
-import { SortingPipe } from '../../pipes/sorting.pipe';
+import { SortingPipe } from '../pipes/sorting.pipe';
+import { ImageStorageService } from '../../admin/image-storage.service';
 
 @Component({
   selector: 'app-notebooks',

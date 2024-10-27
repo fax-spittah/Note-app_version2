@@ -3,26 +3,26 @@ import { FormsModule } from '@angular/forms';
 import { QuillModule } from 'ngx-quill';
 import Quill from 'quill';
 import { RouterModule } from '@angular/router';
-import { NotebookTitlePipe } from '../../pipes/notebook-title.pipe';
-import { Note } from '../../models/note.model';
-import { Notebook } from '../../models/notebooks.model';
+import { NotebookTitlePipe } from '../pipes/notebook-title.pipe';
+import { Note } from '../models/note.model';
+import { Notebook } from '../models/notebooks.model';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { BookDBServiceService } from '../../services/book-dbservice.service';
-import { NotesDBServiceService } from '../../services/notes-dbservice.service';
+import { BookDBServiceService } from '../services/book-dbservice.service';
+import { NotesDBServiceService } from '../services/notes-dbservice.service';
 import { HomeNotesComponent } from '../home-notes/home-notes.component';
 import { HomeNotebooksComponent } from '../home-notebooks/home-notebooks.component';
-import { Bin } from '../../models/bin.model';
+import { Bin } from '../bin/bin.model';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { NoteparentTitlePipe } from '../../pipes/noteparent-title.pipe';
+import { NoteparentTitlePipe } from '../pipes/noteparent-title.pipe';
 import { Subscription } from 'rxjs';
 import { Timestamp } from '@angular/fire/firestore';
 import { AuthService } from '../../auth/auth.service';
-import { WordCountDirective } from '../../word-count.directive';
-import { SortingPipe } from '../../pipes/sorting.pipe';
-import { ImageStorageService } from '../../image-storage.service';
-import { UserService } from '../../services/user.service';
-import { User } from '../../models/user.model';
+import { WordCountDirective } from './word-count.directive';
+import { SortingPipe } from '../pipes/sorting.pipe';
+import { UserService } from '../services/user.service';
+import { User } from '../models/user.model';
+import { ImageStorageService } from '../../admin/image-storage.service';
 
 @Component({
   selector: 'app-home',
