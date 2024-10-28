@@ -16,6 +16,7 @@ import { User } from '../models/user.model';
 export class NavigationComponent {
   userPermissions: string = '';
   currentLoggedInUser: User | undefined;
+  isAdmin: boolean = false;
 
   constructor(private _authService: AuthService, private userService: UserService){}
 
@@ -36,7 +37,9 @@ export class NavigationComponent {
       console.log('Current user:', this.currentLoggedInUser);
     });
 
-    this.getUserPermissions();
+    setTimeout(() => {
+      this.checkPermissions();
+    }, 1000);
   }
 
   onLogout(): void{
@@ -48,15 +51,16 @@ export class NavigationComponent {
   }
 
   getUserPermissions() {
+    console.log("User's id: " + this._authService.getUserID());
     return this.userService.getAdmin(this._authService.getUserID()).pipe(
       map(
         (admin: User | undefined) => {
           if(admin){
-            console.log("Admin" + admin);
+            console.log("Admin " + admin);
             return true;
           }
           else{
-            console.log("User" + admin);
+            console.log("User " + admin);
             return false;
           }
         }
@@ -64,15 +68,17 @@ export class NavigationComponent {
     )
   }
 
-  // checkPermissions() {
-  //   this.getUserPermissions().subscribe(isAdmin => {
-  //     if (isAdmin) {
-  //       console.log("User has admin permissions.");
-  //     } else {
-  //       console.log("User does not have admin permissions.");
-  //     }
-  //   });
-  // }
+  checkPermissions() {
+    this.getUserPermissions().subscribe(isAdmin => {
+      if (isAdmin) {
+        console.log("User has admin permissions.");
+        this.isAdmin = true;
+      } else {
+        console.log("User does not have admin permissions.");
+        this.isAdmin = false;
+      }
+    });
+  }
 
   
   // getUserPermissions() {

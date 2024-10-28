@@ -1,6 +1,10 @@
 .wrapper{
-    text-align: center;
-    padding: 30px 70px;
+    padding: 40px 80px;
+    border: 2px solid black;
+    border-style: dashed;
+    margin: auto;
+    width: 90%;
+    border-radius: 20px;
 }
 
 .buttons{

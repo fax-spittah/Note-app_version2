@@ -7,7 +7,7 @@
             <li class="nav-item">
                 <a class="nav-link" routerLinkActive="active" [routerLink]="'/notebooks'">Notebooks</a>
             </li>
-            <li class="nav-item" *ngIf="getUserPermissions()">
+            <li class="nav-item" *ngIf="isAdmin">
                 <a class="nav-link" routerLinkActive="active" [routerLink]="'/admin'">Administrator</a>
             </li>
         </ul>
