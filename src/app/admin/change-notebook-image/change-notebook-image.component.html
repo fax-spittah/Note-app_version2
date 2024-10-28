@@ -1,6 +1,11 @@
-<div>
-    <h2>Manage Notebooks</h2>
-    <input type="file" (change)="selectNotebookImg($event)" />
-    <button (click)="uploadNotebookImg()">Upload Notebook Image</button>
-    <p *ngIf="imageUrlForNotebook">Notebook Image URL: {{ imageUrlForNotebook }}</p>    
+<div style="text-align: center;">
+    <h2 style="margin: 40px 0px 30px 0px">Manage Notebooks</h2>
+    <div style="padding: 20px; border: 1px solid black; border-style: dashed; width: 40%; margin: auto;">
+        <input type="file" (change)="selectNotebookImg($event)" />
+        <button (click)="uploadNotebookImg()" class="btn btn-secondary">Upload Notebook Image</button>
+    </div>
+    <div *ngIf="imageUrlForNotebook">
+        <h4 style="margin: 20px 0px 15px 0px;">Uploaded image</h4>
+        <img [src]="imageUrlForNotebook" alt="generated image url" style="width: 150px;"/>
+    </div> 
 </div>

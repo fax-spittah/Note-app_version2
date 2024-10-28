@@ -1,6 +1,11 @@
-<div>
-    <h2>Manage Notes</h2>
-    <input type="file" (change)="selectNoteImg($event)" />
-    <button (click)="uploadNoteImg()">Upload Note Image</button>
-    <p *ngIf="imageUrlForNote">Note Image URL: {{ imageUrlForNote }}</p>
+<div style="text-align: center;">
+    <h2 style="margin: 40px 0px 30px 0px">Manage Notes</h2>
+    <div  style="padding: 20px; border: 1px solid black; border-style: dashed; width: 40%; margin: auto;">
+        <input type="file" (change)="selectNoteImg($event)" />
+        <button (click)="uploadNoteImg()" class="btn btn-secondary">Upload Note Image</button>
+    </div>
+    <div *ngIf="imageUrlForNote">
+        <h4 style="margin: 20px 0px 15px 0px;">Uploaded image</h4>
+        <img [src]="imageUrlForNote" alt="generated image url" style="width: 150px;"/>
+    </div>
 </div>

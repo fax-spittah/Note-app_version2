@@ -1,8 +1,10 @@
-<h2 style="text-align: center;">Manage images</h2>
-<div class="admin-menu" style="display: flex; justify-content: space-around; width: 40%; margin: auto; border: 1px solid black; padding: 120px;"> 
-    <a [routerLink]="'changeNotebookImage'"><button class="btn btn-primary">Manage Notebooks</button></a>
-    <a [routerLink]="'changeNoteImage'" ><button class="btn btn-primary">Manage Notes</button></a>
+<div id="content">
+    <h1 style="text-align: center;">Admin page</h1>
+    <p>As an administrator you have control over the images used by notebooks or the notes and can change it at will.</p>
+    <div class="admin-menu"> 
+        <a [routerLink]="'changeNotebookImage'"><button class="btn btn-primary">Change notebook image</button></a>
+        <a [routerLink]="'changeNoteImage'" ><button class="btn btn-primary">Change note image</button></a>
+    </div>
+    <hr/>
+    <router-outlet></router-outlet>
 </div>
-  
-<router-outlet></router-outlet>
-  
