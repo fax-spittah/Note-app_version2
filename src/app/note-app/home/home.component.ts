@@ -153,6 +153,13 @@ export class HomeComponent {
   }
 
   addNewNoteBook(): void{
+    const existingNotebookImage = localStorage.getItem('notebookImage');
+    //checking to see if there is already a set image for the notebooks by the admin in the local storage
+    if(existingNotebookImage){
+      console.log("Notebook image exists in local storage");
+      this.newNoteBook.img = existingNotebookImage;
+    }
+
     this.newNoteBook.id = this.getNextIdNB().toString()
     // this.newNoteBook.colour = this.getRandomColour();
     this.notebooksService.addNewNoteBook(this.newNoteBook).subscribe({
@@ -181,6 +188,13 @@ export class HomeComponent {
 
   addNote(): void {
     const newNote: Note = new Note(); // Create a new instance of Note
+    const existingNoteImage = localStorage.getItem('noteImage');
+    //checking to see if there is already a set image for the notes by the admin in the local storage
+    if(existingNoteImage){
+      console.log("Note image exists in local storage");
+      newNote.img = existingNoteImage;
+    }
+
     newNote.id = this.getNextId().toString(); 
     newNote.notebookId = this.currentNbId;
     this.notesService.addNote(newNote).subscribe({
@@ -261,9 +275,15 @@ export class HomeComponent {
 
   moveNoteToRecycleBin(index: number): void{
     const note = this.notes[index]
+    const image = localStorage.getItem('noteImage');
 
-    this.binProducts.id = note.id
-    this.binProducts.img = '/assets/images/allnotes.png'
+    this.binProducts.id = note.id;
+    //in case the adming hasn't set a not image yet
+    if(image) { 
+      this.binProducts.img = image;
+    } else{
+      '/assets/images/allnotes.png'
+    }
     this.binProducts.time =  Timestamp.now()
     this.binProducts.name = note.name
     this.binProducts.type = 'note'
@@ -356,9 +376,15 @@ export class HomeComponent {
 
   moveNoteBookToRecycleBin(index: number): void{
     const notebook = this.notebooks[index]
+    const image = localStorage.getItem('notebookImage');
 
     this.binProducts.id = notebook.id
-    this.binProducts.img = '/assets/images/notebook.jpg'
+    //go back to the default image if the admin hasn't set one yet
+    if(image) {
+      this.binProducts.img = image;
+    } else{
+      '/assets/images/notebook.jpg'
+    }
     this.binProducts.time = Timestamp.now()
     this.binProducts.name = notebook.name
     this.binProducts.type = 'notebook'

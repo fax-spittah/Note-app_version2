@@ -10,7 +10,7 @@ export class Notebook {
     constructor() {
       this.id = "";
       this.name = "New notebook";
-      this.img = '/assets/images/notebook.jpg';
+      this.img = '';
       this.time = Timestamp.now(), 
       this.notecount = 0;
     }

@@ -127,6 +127,12 @@ export class NotebooksComponent {
 
   addNewNoteBook(): void {
     const newNotebook: Notebook = new Notebook();
+    const existingNotebookImage = localStorage.getItem('notebookImage');
+    //checking to see if there is already a set image for the notebooks by the admin in the local storage
+    if(existingNotebookImage){
+      console.log("Notebook image exists in local storage");
+      newNotebook.img = existingNotebookImage;
+    }
     // newNotebook.id = this.getNextId().toString();
     this.notebooksService.addNewNoteBook(newNotebook).subscribe({
       next: () => {

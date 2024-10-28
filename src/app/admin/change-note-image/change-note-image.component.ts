@@ -35,6 +35,7 @@ export class ChangeNoteImageComponent {
       this.imageUrlForNote = await this.imageStorage.uploadImage(path, this.fileForNote, 'note');
       this.imageUploaded = true;
       console.log("Uploaded Note Image URL:", this.imageUrlForNote);
+      localStorage.setItem('noteImage', this.imageUrlForNote);
     } catch (error) {
       console.error("Error uploading note image:", error);
     }

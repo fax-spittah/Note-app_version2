@@ -34,6 +34,7 @@ export class ChangeNotebookImageComponent {
       this.imageUrlForNotebook = await this.imageStorage.uploadImage(path, this.fileForNotebook, 'notebook');
       this.imageUploaded = true;
       console.log("Uploaded Notebook Image URL:", this.imageUrlForNotebook);
+      localStorage.setItem('notebookImage', this.imageUrlForNotebook);
     } catch (error) {
       console.error("Error uploading notebook image:", error);
     }
@@ -41,7 +42,7 @@ export class ChangeNotebookImageComponent {
 
   canDeactivate(): boolean {
     if (this.fileForNotebook && !this.imageUploaded) {
-      return confirm('You selected a notebook image but haven’t uploaded it. Do you want to leave without uploading?');
+      return confirm('You selected a notebook image but haven\'t uploaded it. Do you want to leave without uploading?');
     }
     return true;
   }
