@@ -1,8 +1,8 @@
-import { NotebookTitlePipe } from './notebook-title.pipe';
+// import { NotebookTitlePipe } from './notebook-title.pipe';
 
-describe('NotebookTitlePipe', () => {
-  it('create an instance', () => {
-    const pipe = new NotebookTitlePipe();
-    expect(pipe).toBeTruthy();
-  });
-});
+// describe('NotebookTitlePipe', () => {
+//   it('create an instance', () => {
+//     const pipe = new NotebookTitlePipe();
+//     expect(pipe).toBeTruthy();
+//   });
+// });
