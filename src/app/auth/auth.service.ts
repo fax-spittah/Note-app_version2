@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@angular/fire/auth';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +11,7 @@ export class AuthService {
   userId: string | null = null;
   userLoggedIn = new Subject<void>();
   userLoggedOut = new Subject<void>();
+  private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
 
   constructor(private router: Router, private auth: Auth) {
     if(localStorage.getItem('token')){
@@ -26,6 +27,10 @@ export class AuthService {
         console.log("No user is logged in");
       }
     });
+  }
+
+  get isAuthenticated$(): Observable<boolean> {
+    return this.isAuthenticatedSubject.asObservable();
   }
 
   // Call this method whenever a user logs in
@@ -52,6 +57,7 @@ export class AuthService {
           this.token = token;
           localStorage.setItem('token', token);
           console.log('token gotten');
+          this.isAuthenticatedSubject.next(true);
           return true;
         });
       })
@@ -67,7 +73,9 @@ export class AuthService {
       localStorage.removeItem('token');
       localStorage.removeItem('currentUser');
 
-      this.userLoggedOut.next(); // Emit the logout event
+      // this.userLoggedOut.next(); // Emit the logout event
+      localStorage.removeItem('admin');
+      this.isAuthenticatedSubject.next(false);
       this.router.navigate(['/startup']); 
     }).catch(error => {
       console.error("Error during logout:", error);

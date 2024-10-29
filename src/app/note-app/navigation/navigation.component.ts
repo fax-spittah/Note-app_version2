@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../services/user.service';
-import { map } from 'rxjs';
+import { map, take } from 'rxjs';
 import { User } from '../models/user.model';
 
 @Component({
@@ -40,9 +40,15 @@ export class NavigationComponent {
       console.log('Current user:', this.currentLoggedInUser);
     });
 
-    setTimeout(() => {
-      this.checkPermissions();
-    }, 500);
+    // this.checkPermissions();
+    this._authService.isAuthenticated$.subscribe(isAuthenticated => {
+      if (isAuthenticated) {
+        this.checkPermissions();
+      }
+    });
+
+    this.loadAdminStatus();
+    
   }
 
   onLogout(): void{
@@ -60,10 +66,12 @@ export class NavigationComponent {
         (admin: User | undefined) => {
           if(admin){
             console.log("Admin " + admin);
+            localStorage.setItem('admin', 'true');
             return true;
           }
           else{
             console.log("User " + admin);
+            localStorage.removeItem('admin');
             return false;
           }
         }
@@ -72,26 +80,19 @@ export class NavigationComponent {
   }
 
   checkPermissions() {
-    this.getUserPermissions().subscribe(isAdmin => {
-      if (isAdmin) {
-        console.log("User has admin permissions.");
-        this.isAdmin = true;
-      } else {
-        console.log("User does not have admin permissions.");
-        this.isAdmin = false;
-      }
+    this.getUserPermissions().pipe(take(1)).subscribe(isAdmin => {
+      this.isAdmin = isAdmin;
+      console.log(`User ${isAdmin ? 'has' : 'does not have'} admin permissions.`);
     });
   }
 
   
-  // getUserPermissions() {
-  //   this.userService.getAdmin(this._authService.getUserID()).subscribe({
-  //     next: (permission: any) => {
-  //       if(permission){
-  //         this.userPermissions = permission
-  //       }
-  //     },
-  //     error: (error) => console.log('Error: ', error)
-  //   })
-  // }
+  loadAdminStatus(): void {
+    const storedAdminStatus = localStorage.getItem('admin');
+    if (storedAdminStatus) {
+      this.isAdmin = true;
+    } else {
+      this.checkPermissions(); // Initial check if no stored status
+    }
+  }
 }

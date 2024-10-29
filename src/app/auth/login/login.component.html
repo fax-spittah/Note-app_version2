@@ -1,4 +1,5 @@
-<form [formGroup]="form" (ngSubmit)="onLogin()">
+<div class="wrapper">
+  <form [formGroup]="form" (ngSubmit)="onLogin()">
     <h1>Login</h1>
     <!-- <span *ngIf="!form.valid && form.touched" class="errorMessage"><i>The email or password is incorrect</i></span> -->
     <!-- <span *ngIf="invalidLogin" class="errorMessage"><i>The email or password is incorrect</i></span> -->
@@ -27,3 +28,4 @@
         <p>Don't yet have an acccount? Sign up <a [routerLink]="'/signup'">here</a></p>
     </div>
 </form>
+</div>
