@@ -1,10 +1,10 @@
 {
   "firestore": {
-    "rules": "firestore.ruless",
+    "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
-    "public": "dist/public_directory",
+    "public": "dist/note-app/browser",
     "ignore": [
       "firebase.json",
       "**/.*",
