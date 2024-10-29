@@ -9,7 +9,11 @@ import { Auth } from '@angular/fire/auth';
   providedIn: 'root'
 })
 export class UserService {
-  private userSubject = new BehaviorSubject<User | undefined>(undefined);
+  // private userSubject = new BehaviorSubject<User | undefined>(undefined);
+  private userSubject = new BehaviorSubject<User | undefined>(
+    JSON.parse(localStorage.getItem('currentUser') || 'null') // Initialize with stored user or null
+  );
+  
   currentLoggedInUser: User | undefined;
 
   constructor(private db: Firestore, private authService: AuthService, private auth: Auth) {
@@ -50,6 +54,7 @@ export class UserService {
   }
 
   clearCurrentUser(): void {
+    console.log("Clear user function called!");
     this.userSubject.next(undefined); 
     localStorage.removeItem('currentUser'); 
   }  

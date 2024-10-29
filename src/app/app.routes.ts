@@ -1,9 +1,6 @@
 import { Routes } from '@angular/router';
 import { PageNotFoundComponent } from './note-app/page-not-found/page-not-found.component';
-import { SignupComponent } from './auth/signup/signup.component';
-import { LoginComponent } from './auth/login/login.component';
 import { StartupComponent } from './startup/startup.component';
-import { loggedOutGuard } from './auth/logged-out.guard';
 
 export const routes: Routes = [
     {

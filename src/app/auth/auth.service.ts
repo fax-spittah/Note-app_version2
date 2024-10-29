@@ -60,18 +60,6 @@ export class AuthService {
         return false;
       });
   }
-
-  deleteUser() {
-    const user = this.auth.currentUser;
-  
-    if(user) {
-      console.log("User deleted");
-      return user.delete();
-    } 
-    else {
-      return Promise.reject('No user is currently signed in.');
-    }
-  }
   
   logout(): void{
     this.auth.signOut().then(() => {

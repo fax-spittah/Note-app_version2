@@ -479,6 +479,7 @@ export class HomeComponent {
     const html = this.el.nativeElement.children[0].innerHTML; //accessing the innerHtml of the quill editor
     const text = this.htmlToPlainText(html); 
     const wordCount = this.countWords(text); 
+    this.wordCount = wordCount;
   }
 
   private countWords(text: string): number {

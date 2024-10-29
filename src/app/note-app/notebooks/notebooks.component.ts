@@ -14,11 +14,12 @@ import { Timestamp } from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
 import { SortingPipe } from '../pipes/sorting.pipe';
 import { ImageStorageService } from '../../admin/image-storage.service';
+import { FilterPipe } from '../pipes/filter.pipe';
 
 @Component({
   selector: 'app-notebooks',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, BinComponent, NotebookTitlePipe, SortingPipe],
+  imports: [CommonModule, RouterModule, FormsModule, BinComponent, NotebookTitlePipe, SortingPipe, FilterPipe],
   templateUrl: './notebooks.component.html',
   styleUrls: ['./notebooks.component.css'],
   providers: [BookDBServiceService, NotesDBServiceService]
@@ -255,37 +256,6 @@ export class NotebooksComponent {
 
   hideList(): void {
     this.showListFlag = false;
-  }
-
-  //sorting alphabetically
-  sortNotesAlphabetically(): void {
-    this.notebooks.sort((a, b) => {
-        const titleA = a.name.toUpperCase(); // Convert titles to uppercase
-        const titleB = b.name.toUpperCase();
-        if (titleA < titleB) {
-            return -1; // Title A comes before title B
-        }
-        if (titleA > titleB) {
-            return 1; // Title A comes after title B
-        }
-        return 0; // Titles are equal
-    });
-  }
-  
-  //sorting by date
-  sortNotesByDateCreated(): void {
-    this.notebooks.sort((a, b) => {
-      const dateA = a.time.toDate();
-      const dateB = a.time.toDate();
-
-      if (dateA < dateB) {
-          return -1; 
-      }
-      if (dateA > dateB) {
-          return 1; 
-      }
-      return 0;
-  });
   }
 
   setSortType(type: string): void{

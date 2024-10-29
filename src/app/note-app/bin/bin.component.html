@@ -1,10 +1,9 @@
 <div class="container-trui content" (click)="hideList()">
     <div class="tool-bar">
-        <div class="search-wrapper"><input type="text" placeholder="Search bin" class="search" [(ngModel)]="binSearchContent" (input)="filterBy()"/></div>
+        <div class="search-wrapper"><input type="text" placeholder="Search bin" class="search" [(ngModel)]="binSearchContent"/></div>
 
         <div class="sort-wrapper">
             <select class="sortOptions" (change)="handleSortChange($event)">
-                <option value="none">None</option>
                 <option value="dateDeleted">By Date Deleted</option>
                 <option value="alphabetically">Alphabetically</option>
             </select>            
@@ -17,7 +16,7 @@
     </div>
 
     <div class="notebooks-container" *ngIf="deletedStuff.length > 0">
-        <ng-container *ngFor="let stuff of deletedStuff; index as i">
+        <ng-container *ngFor="let stuff of deletedStuff | sorting: sortType | filter: binSearchContent; index as i">
             <div class="notebook-item" (click)="hideList()" (contextmenu)="setSelectedNoteBookIndex(i); showList($event)">
                 <img src="{{stuff.img}}" alt="notebook image" class="notebookImage"/><br/> 
                 <span>{{stuff.name | notebookTitle:20}}</span><br/>

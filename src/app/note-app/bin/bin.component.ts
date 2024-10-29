@@ -12,11 +12,13 @@ import { FormsModule } from '@angular/forms';
 import { NotebookTitlePipe } from '../pipes/notebook-title.pipe';
 import { Timestamp } from '@angular/fire/firestore';
 import { ImageStorageService } from '../../admin/image-storage.service';
+import { SortingPipe } from '../pipes/sorting.pipe';
+import { FilterPipe } from '../pipes/filter.pipe';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, FormsModule, NotebookTitlePipe],
+  imports: [CommonModule, HttpClientModule, FormsModule, NotebookTitlePipe, SortingPipe, FilterPipe],
   templateUrl: './bin.component.html',
   styleUrl: './bin.component.css',
   providers:[NotesDBServiceService, BinService, BookDBServiceService, Note]
@@ -32,12 +34,12 @@ export class BinComponent {
   binSearchContent: string = ""
   notebookImageUrl: string = ''; 
   noteImageUrl: string = '';
+  sortType: string = '';
 
   constructor(private notesService: NotesDBServiceService, private notebooksService: BookDBServiceService, private http: HttpClient, private binService: BinService, private imageService: ImageStorageService){}
 
   ngOnInit(): void {
     this.getDeletedNotes();
-    // this.getNotebookImage('/images/background-image.jpg', '/images/notebook.jpg');
   }
 
   getDeletedNotes(): void{
@@ -141,61 +143,15 @@ export class BinComponent {
     this.showListFlag = false;
   }
 
-  //search function to filter notes based on user search
-  filterBy() {
-    const searchTerm = this.binSearchContent.toLowerCase().trim(); // Get the search term from the input element  
-    
-    if (searchTerm) {
-      // Filter notes based on the search term
-      this.deletedStuff = this.tempDeletedStuff.filter(n => n.name.toLowerCase().includes(searchTerm));
-    } else {
-      // If the search term is empty, restore the original list of notes
-      this.deletedStuff = [...this.tempDeletedStuff];    }
-  }
-
-  //sorting alphabetically
-  sortNotesAlphabetically(): void {
-    this.deletedStuff.sort((a, b) => {
-        const titleA = a.name.toUpperCase(); // Convert titles to uppercase
-        const titleB = b.name.toUpperCase();
-        if (titleA < titleB) {
-            return -1; // Title A comes before title B
-        }
-        if (titleA > titleB) {
-            return 1; // Title A comes after title B
-        }
-        return 0; // Titles are equal
-    });
-  }
-
-  //sorting by date
-  sortNotesByDateDeleted(): void {
-    this.deletedStuff.sort((a, b) => {
-        const dateA = a.time.toDate();
-        const dateB = a.time.toDate();
-
-        if (dateA < dateB) {
-            return 1; 
-        }
-        if (dateA > dateB) {
-            return -1; 
-        }
-        return 0;
-    });
-  }
-
   handleSortChange(event: Event) {
     const sortOption = (event.target as HTMLSelectElement).value;
     console.log('Selected option:', sortOption);
     
     if(sortOption == "alphabetically"){
-      this.sortNotesAlphabetically()
+      this.sortType = "alphabetically";
     }
     else if(sortOption == "dateDeleted"){
-      this.sortNotesByDateDeleted()
-    }
-    else if(sortOption == "none"){
-      this.getDeletedNotes()
+      this.sortType = "date";
     }
   }
 

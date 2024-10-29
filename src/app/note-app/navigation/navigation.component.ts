@@ -34,12 +34,15 @@ export class NavigationComponent {
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentLoggedInUser = user;
       }
+      else{
+        this.currentLoggedInUser = undefined;
+      }
       console.log('Current user:', this.currentLoggedInUser);
     });
 
     setTimeout(() => {
       this.checkPermissions();
-    }, 1000);
+    }, 500);
   }
 
   onLogout(): void{

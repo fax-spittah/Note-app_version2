@@ -24,7 +24,7 @@ export class SortingPipe implements PipeTransform {
       });
     }  
     else if (sortType === 'numberNotes') {
-      return notes.sort((a, b) => {
+      return notes.sort((b, a) => {
         const countA = new Date(a.notecount);
         const countB = new Date(b.notecount);
         return countA < countB ? -1 : countA > countB ? 1 : 0;

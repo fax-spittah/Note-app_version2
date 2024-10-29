@@ -1,10 +1,9 @@
 <div class="content container-trui" (click)="hideList()">
     <div class="tool-bar">
-        <div class="search-wrapper"><input type="text" placeholder="Search notebooks" class="search" [(ngModel)]="notebookSearchContent" (input)="filterBy()"/></div>
+        <div class="search-wrapper"><input type="text" placeholder="Search notebooks" class="search" [(ngModel)]="notebookSearchContent"/></div>
 
         <div class="sort-wrapper">
             <select class="sortOptions" (change)="handleSortChange($event)">
-                <option value="none">None</option>
                 <option value="date">By Date Created</option>
                 <option value="alphabetically">Alphabetically</option>
                 <option value="numberNotes">Highest notes</option>
@@ -18,7 +17,7 @@
     </div>
 
     <div class="notebooks-container" *ngIf="notebooks.length > 0">
-        <ng-container *ngFor="let notebook of notebooks  | sorting: sortType; index as i">
+        <ng-container *ngFor="let notebook of notebooks  | sorting: sortType | filter: notebookSearchContent; index as i">
             <div class="notebook-item" (contextmenu)="setSelectedNoteBookIndex(i); showList($event)">
                 <a href="#" [attr.href]="'/?id=' + notebook.id">
                     <img src="{{notebook.img}}" alt="notebook image" class="notebookImage"/>

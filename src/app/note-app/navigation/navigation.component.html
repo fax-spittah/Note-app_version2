@@ -13,16 +13,7 @@
         </ul>
         <div>
             <button  *ngIf="authService.isLoggedIn()" (click)="onLogout()" class="btn btn-danger" style="margin-right: 20px;">Logout</button>
-            <span class="alert alert-warning"><b>{{ currentLoggedInUser?.firstName }} {{ currentLoggedInUser?.lastName }}</b></span>
+            <span class="alert alert-secondary" *ngIf="currentLoggedInUser"><b>{{ currentLoggedInUser.firstName }} {{ currentLoggedInUser.lastName }}</b></span>
         </div>
-        <!-- <img src="../../assets/images/pen.png"/> -->
-        <!-- <ul *ngIf="!authService.isLoggedIn()" class="navbar-nav justify-content-center">
-            <li class="nav-item">
-                <a class="nav-link" routerLinkActive="active" [routerLink]="'/login'">Login</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLinkActive="active" [routerLink]="'/signup'">Signup</a>
-            </li>
-        </ul> -->
     </nav>
 </div>
