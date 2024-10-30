@@ -112,6 +112,7 @@ export class HomeComponent {
       if (source === 'user') {
         console.log('Text changed by user');
         // this.handleTextChanged();
+        // this.emitWordCount();
       }
     });
 
@@ -156,7 +157,7 @@ export class HomeComponent {
     const existingNotebookImage = localStorage.getItem('notebookImage');
     //checking to see if there is already a set image for the notebooks by the admin in the local storage
     if(existingNotebookImage){
-      console.log("Notebook image exists in local storage");
+      console.log("Notebook image exists in local storage " + existingNotebookImage);
       this.newNoteBook.img = existingNotebookImage;
     }
 
@@ -475,11 +476,16 @@ export class HomeComponent {
   //   }
   // }
 
+
+  // Count words and update word count
   emitWordCount(): void {
-    const html = this.el.nativeElement.children[0].innerHTML; //accessing the innerHtml of the quill editor
-    const text = this.htmlToPlainText(html); 
+    let text = '';
+    if(this.noteTextArea){
+      text = this.noteTextArea.getText();
+    }
+
     const wordCount = this.countWords(text); 
-    this.wordCount = wordCount;
+    this.updateWordCount(wordCount);
   }
 
   private countWords(text: string): number {
@@ -487,13 +493,9 @@ export class HomeComponent {
     return text.length > 0 ? words.length : 0; 
   }
 
-  private htmlToPlainText(html: string): string {
-    const doc = new DOMParser().parseFromString(html, 'text/html');
-    return doc.body.textContent || ""; //Convert HTML to plain text
-  }
-
   updateWordCount(count: number) {
     this.wordCount = count;
+    console.log(`Initial word count: ${this.wordCount}`);
   }
 
   ngOnDestroy(): void{

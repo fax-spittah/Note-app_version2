@@ -11,7 +11,19 @@ import { Auth } from '@angular/fire/auth';
 export class UserService {
   // private userSubject = new BehaviorSubject<User | undefined>(undefined);
   private userSubject = new BehaviorSubject<User | undefined>(
-    JSON.parse(localStorage.getItem('currentUser') || 'null') // Initialize with stored user or null
+    (() => {
+      const storedUser = localStorage.getItem('currentUser');
+      if (storedUser) {
+        try {
+          return JSON.parse(storedUser);
+        } catch {
+          console.warn('Failed to parse currentUser from localStorage');
+          localStorage.removeItem('currentUser');
+          return undefined;
+        }
+      }
+      return undefined;
+    })()
   );
   
   currentLoggedInUser: User | undefined;
