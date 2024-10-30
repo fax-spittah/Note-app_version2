@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../services/user.service';
-import { map, take } from 'rxjs';
+import { map, Subject, take, takeUntil } from 'rxjs';
 import { User } from '../models/user.model';
 
 @Component({
@@ -17,6 +17,7 @@ export class NavigationComponent {
   userPermissions: string = '';
   currentLoggedInUser: User | undefined;
   isAdmin: boolean = false;
+  private unsubscribe = new Subject<void>();
 
   constructor(private _authService: AuthService, private userService: UserService){}
 
@@ -29,19 +30,18 @@ export class NavigationComponent {
     }
 
     // Listening for updates in currentUser
-    this.userService.currentUser.subscribe(user => {
+    this.userService.currentUser.pipe(takeUntil(this.unsubscribe)).subscribe(user => {
       if (user) {
-        localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentLoggedInUser = user;
-      }
-      else{
+      } else {
         this.currentLoggedInUser = undefined;
       }
-      console.log('Current user:', this.currentLoggedInUser);
+
+      console.log("Current user: " + this.currentLoggedInUser);
     });
 
     // this.checkPermissions();
-    this._authService.isAuthenticated$.subscribe(isAuthenticated => {
+    this._authService.isAuthenticated$.pipe(takeUntil(this.unsubscribe)).subscribe(isAuthenticated => {
       if (isAuthenticated) {
         this.checkPermissions();
       }
@@ -53,6 +53,7 @@ export class NavigationComponent {
 
   onLogout(): void{
     this.authService.logout();
+    this.currentLoggedInUser = undefined;
   }
 
   get authService() {
@@ -80,7 +81,7 @@ export class NavigationComponent {
   }
 
   checkPermissions() {
-    this.getUserPermissions().pipe(take(1)).subscribe(isAdmin => {
+    this.getUserPermissions().pipe(take(1), takeUntil(this.unsubscribe)).subscribe(isAdmin => {
       this.isAdmin = isAdmin;
       console.log(`User ${isAdmin ? 'has' : 'does not have'} admin permissions.`);
     });
@@ -94,5 +95,11 @@ export class NavigationComponent {
     } else {
       this.checkPermissions(); // Initial check if no stored status
     }
+  }
+
+  ngOnDestroy() {
+    // Emits a value and completes the subject to terminate all subscriptions
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }

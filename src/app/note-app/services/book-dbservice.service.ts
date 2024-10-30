@@ -28,6 +28,8 @@ export class BookDBServiceService {
       time: notebook.time
     };
 
+    console.log("New notebook from notebook service: " + notebookData.img);
+
     return from(setDoc(ref, notebookData));
   }
 

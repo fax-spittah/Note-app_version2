@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@angular/fire/auth';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, flatMap, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -72,9 +72,9 @@ export class AuthService {
       this.token = null;
       localStorage.removeItem('token');
       localStorage.removeItem('currentUser');
-
-      // this.userLoggedOut.next(); // Emit the logout event
       localStorage.removeItem('admin');
+
+      this.userLoggedOut.next(); // Emit the logout event
       this.isAuthenticatedSubject.next(false);
       this.router.navigate(['/startup']); 
     }).catch(error => {
